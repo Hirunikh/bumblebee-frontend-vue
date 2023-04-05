@@ -7,18 +7,42 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data() {
         return {
-            items: [
-          { customerId: '', customerName: '', address: '', DOB: '', contactNumber: '', email: '', installment_plan: '', used_amount: '', credit_limit:''}
-        ],
+        items: [],
+        fields: ["customerId", "customerName", "address", "DOB", "contactNumber", "email", "installment_plan", "used_amount", "credit_limit"],  
         striped: true,
         bordered: true,
         outlined: true
         }
     }, 
-    
+    mounted() {
+        this.loadCustomers();
+    }, 
+    methods: {
+        async loadCustomers() {
+            let response  = await axios.get("/bumblebee-apis/api/V1/Customers")
+            let allcustomers = response.data;
+            let allItems = [];
+            allcustomers.forEach(customer => {
+                allItems.push({
+                    customerID: customer.customerID,
+                    customerName: customer.customerName,
+                    address: customer.address,
+                    dob: customer.dob,
+                    contactNumber: customer.contactNumber,
+                    email: customer.email,
+                    installmentPlan: customer.installmentPlan,
+                    usedAmount: customer.usedAmount,
+                    creditLimit: customer.creditLimit 
+
+                })
+            })
+            this.items = allItems;
+        }  
+    }
 }
 </script>
 
@@ -28,6 +52,8 @@ export default {
     width: 70%;
     border: 2px solid grey;
     padding: 10px;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .buttonsAtBottom {
