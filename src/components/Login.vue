@@ -1,6 +1,8 @@
 <template>
     <div class="form">
-        <h2 style="text-align: center;">Bumble-Bee</h2>
+        <div>
+            <img src="/img/logo.png" style="padding:1rem; width: 100%;">
+        </div>
         <h4 style="text-align: center;">Welcome Back!</h4>
         <h6 style="text-align: center;">Login to Bumbel-Bee with your username and password.</h6>
         <b-form @login="onLogin">
@@ -43,6 +45,8 @@ export default {
     width: 50%;
     border: 2px solid grey;
     padding: 10px;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .buttonsAtBottom {
