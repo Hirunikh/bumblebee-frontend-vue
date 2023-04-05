@@ -1,5 +1,8 @@
 <template>
     <div class="form">
+        <div>
+            <img src="/img/logo.png" style="padding:1rem; width: 100%;">
+        </div>
         <h2 style="text-align: center;">Register</h2>
         <b-form @register="onRegister" @cancel="onCancel">
             <b-form-group class="margins" id="input-group-1" label="Name:" label-for="input-1">
@@ -80,6 +83,8 @@ export default {
     width: 50%;
     border: 2px solid grey;
     padding: 10px;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .buttonsAtBottom {
