@@ -67,23 +67,26 @@ export default {
             let allItems = [];
             alllInventries.forEach(inventory => {
                 allItems.push({
-                    inventoryID: inventory.inventoryID,
-                    productID: inventory.productID,
-                    stockQuantity: inventory.stockLocation,
-                    stockLocation: inventory.stockQuantity
+                    inventoryId: inventory.inventoryID,
+                    productId: inventory.productID,
+                    stockLocation: inventory.stockLocation,
+                    stockQuantity: inventory.stockQuantity
                 })
             })
             this.items = allItems;
         },
         async deleteItem(item) {
-           await axios.delete("")
-           this.loadBrands();
+            await axios.delete(`/bumblebee-apis/api/V1/Category/${item.categoryId}`)
+                .then(response => {
+                    console.log(response);
+                    this.loadCategories();
+                });
         },
         selectItem(item) {
             this.form.id = item.inventoryId;
             this.form.productid = item.productId;
-            this.form.stockquantity = item.stockLocation;
-            this.form.stocklocation = item.stockQuantity;
+            this.form.stocklocation = item.stockLocation;
+            this.form.stockquantity = item.stockQuantity;
         },
         onCreate() {
 

@@ -4,7 +4,7 @@
             <img src="/img/logo.png" style="padding:1rem; width: 100%;">
         </div>
         <h2 style="text-align: center;">Register</h2>
-        <b-form @register="onRegister" @cancel="onCancel">
+        <b-form>
             <b-form-group class="margins" id="input-group-1" label="Name:" label-for="input-1">
                 <b-form-input id="input-1" v-model="form.name" placeholder="Enter Full Name" required></b-form-input>
             </b-form-group>
@@ -37,11 +37,15 @@
             </b-form-group>
 
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="register" variant="primary">Register</b-button>
-                <b-button class="padding" type="cancel" variant="danger">Cancel</b-button>
+                <b-button class="padding" type="button" v-on:click="onRegister" variant="primary">Register</b-button>
+                <b-button class="padding" type="button" v-on:click="$router.push('/')" variant="danger">Cancel</b-button>
             </div>
 
         </b-form>
+
+        <b-modal ref="modal-msg" ok-only size="sm" id="modal-1" title="Message" @ok="handleOk">
+            <p class="my-4">Successfully Registered!</p>
+        </b-modal>
 
         <!-- <b-card class="mt-3" header="Customer Registration Form">
             <pre class="m-0">{{ form }}</pre>
@@ -50,6 +54,8 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
+
 export default {
 
     data() {
@@ -70,8 +76,11 @@ export default {
 
         },
         onRegister() {
-
-        }
+            this.$refs['modal-msg'].show()
+        },
+        handleOk() {
+            this.$router.push("/");
+        },
     }
 
 }

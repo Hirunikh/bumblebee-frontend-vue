@@ -1,5 +1,5 @@
 <template>
-    <div class="form">
+    <div class="form" >
         <h2 style="text-align: center;">Product</h2>
         <b-form>
             <b-form-group class="margins" id="input-group-1" label="Product ID:" label-for="input-1">
@@ -11,11 +11,17 @@
             <b-form-group class="margins" id="input-group-3" label="Product Description:" label-for="input-3">
                 <b-form-input id="input-3" v-model="form.productdescription" placeholder="Enter Product Description" required></b-form-input>
             </b-form-group>
-            <b-form-group class="margins" id="input-group-4" label="Category ID:" label-for="input-4">
-                <b-form-input id="input-4" v-model="form.categoryId" placeholder="Enter Category Id"  required></b-form-input>
+            
+            <b-form-group class="margins" id="input-group-4" label="Category:" label-for="input-4">
+                <b-form-select class="select" v-model="form.categoryId" :options="categories">
+                    <template #first>
+                        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+                    </template>
+                </b-form-select>
             </b-form-group>
-            <b-form-group class="margins" id="input-group-5" label="Brand ID:" label-for="input-5">
-                <b-form-input id="input-5" v-model="form.brandId"  placeholder="Enter Brand Id"  required></b-form-input>
+           
+            <b-form-group class="margins" id="input-group-4" label="Brand:" label-for="input-4">
+                <b-form-select class="select" v-model="form.brandId" :options="brands"></b-form-select>
             </b-form-group>
             <b-form-group class="margins" id="input-group-6" label="Price:" label-for="input-6">
                 <b-form-input id="input-6" v-model="form.price" placeholder="Enter Product Price" required></b-form-input>
@@ -24,8 +30,8 @@
                 <b-form-input id="input-7" v-model="form.quantity" placeholder="Enter Product Quantity" required></b-form-input>
             </b-form-group>
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="create" variant="primary">Create</b-button>
-                <b-button class="padding" type="update" variant="secondary">Update</b-button>
+                <b-button class="padding" type="button" v-on:click="onCreate" variant="primary">Create</b-button>
+                <b-button class="padding" type="button" v-on:click="onUpdate" variant="secondary">Update</b-button>
             </div>
 
         </b-form>
@@ -52,11 +58,13 @@ import axios from 'axios'
                 id: '',
                 productname: '',
                 productdescription: '',
-                categoryId: '',
-                brandId: '',
+                categoryId: null,
+                brandId: null,
                 price: '',
-                quantity: ''
+                quantity: '',
             },
+            brands: [],
+            categories: [],
             items: [],
             fields: ["productId", "productName", "productDescription", "categoryId", "brandId", "price", "quantity", "select", "delete"],    
         striped: true,
@@ -66,6 +74,8 @@ import axios from 'axios'
     },
     mounted() {
         this.loadProduct();
+        this.loadCategories();
+        this.loadBrands();
     },
     methods: {
         async loadProduct() {
@@ -74,13 +84,13 @@ import axios from 'axios'
             let allItems = [];
             allproducts.forEach(product => {
                 allItems.push({
-                    productID: brand.productID,
-                    productName: brand.productName,
-                    productDescription: brand.productDescription,
-                    categoryID: brand.categoryID,
-                    brandID: brand.brandID,
-                    price: brand.price,
-                    quantity: brand.quantity
+                    productId: product.productID,
+                    productName: product.productName,
+                    productDescription: product.productDescription,
+                    categoryId: product.categoryID,
+                    brandId: product.brandID,
+                    price: product.price,
+                    quantity: product.quantity
                 })
 
             })
@@ -91,16 +101,40 @@ import axios from 'axios'
            this.loadBrands();
         },
         selectItem(item) {
-            this.form.id = item.productID;
+            this.form.id = item.productId;
             this.form.productname = item.productName;
             this.form.productdescription = item.productDescription;
-            this.form.categoryId = item.categoryID;
-            this.form.brandId = item.brandID;
+            this.form.categoryId = item.categoryId;
+            this.form.brandId = item.brandId;
             this.form.price = item.price;
             this.form.quantity = item.quantity;
         },
+        async loadCategories() {
+            let response = await axios.get("/bumblebee-apis/api/V1/Category")
+            let allCategories = response.data;
+            let allItems = [];
+            allCategories.forEach(category => {
+                allItems.push({
+                    value: category.categoryID,
+                    text: category.categoryName
+                })
+            })
+            this.categories = allItems;
+        },
+        async loadBrands() {
+            let response  = await axios.get("/bumblebee-apis/api/V1/Brand")
+            let allbrands = response.data;
+            let allItems = [];
+            allbrands.forEach(brand => {
+                allItems.push({
+                    value: brand.brandID,
+                    text: brand.brandName
+                })
+            })
+            this.brands = allItems;
+        },           
         onCreate() {
-
+            console.log(this.form)
         },
         onUpdate() {
 
@@ -137,4 +171,10 @@ import axios from 'axios'
 .padding {
     margin: 1rem;
 }
+
+.select {
+    width: 100%;
+    padding: 0.4rem;
+}
+
 </style>

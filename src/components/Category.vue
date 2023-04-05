@@ -24,7 +24,7 @@
                     <span><b-btn @click="selectItem(item)" variant="outline-primary">Select</b-btn></span>
                 </template>
                 <template v-slot:cell(delete)="{ item }">
-                    <span><b-btn variant="outline-success" @click="deleteItem(item)">Delete</b-btn></span>
+                    <span><b-btn variant="outline-danger" @click="deleteItem(item)">Delete</b-btn></span>
                 </template>
             </b-table>
         </div>
@@ -64,19 +64,12 @@ export default {
             })
             this.items = allItems;
         },
-        // async deleteItem(item) {
-        //     await axios.delete('/bumblebee-apis/api/V1/Category/${this.form.Id}')
-        //     .then(response => {
-        //          console.log(response);
-        //     });      
-        //    this.loadCategories();
-        // },
+
         async deleteItem(item) {
-            await axios.delete(`/bumblebee-apis/api/V1/Category/${this.item.categoryID}`)
+            await axios.delete(`/bumblebee-apis/api/V1/Category/${item.categoryId}`)
                 .then(response => {
                     console.log(response);
                     this.loadCategories();
-
                 });
         },
         selectItem(item) {
@@ -84,15 +77,16 @@ export default {
             this.form.id = item.categoryId;
         },
         async onCreate() {
-            await axios.post('/bumblebee-apis/api/V1/Category')
-                .then(function (response) {
-                    console.log(response);
-                    this.loadCategories();
-
-                })
+            await axios.post('/bumblebee-apis/api/V1/Category', {
+                categoryName: this.form.categoryname
+            })
+            .then(response => {
+                console.log(response);
+                this.loadCategories();
+            })
         },
         async onUpdate() {
-            await axios.put(`/bumblebee-apis/api/V1/Category/${this.form.id}`, {
+            await axios.put(`/bumblebee-apis/api/V1/Category/${this.form.id}`, {}, {
                 params: {
                     categoryName: this.form.categoryname
                 }
