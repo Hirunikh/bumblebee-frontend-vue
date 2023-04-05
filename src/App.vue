@@ -2,7 +2,15 @@
   <!--     <img alt="Vue logo" src="./assets/logo.png">-->
   <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>  -->
   <!-- <CustomerRegister></CustomerRegister> -->
-  <Loan></Loan>
+  <!-- <Loan></Loan> -->
+  <div>
+    <div class="header">
+      
+    </div>
+    <div>
+      <router-view></router-view>
+    </div>
+  </div> 
 </template>
 
 <script>
@@ -16,12 +24,14 @@ import Customer from './components/Customer.vue'
 import Inventory from './components/Inventory.vue'
 import Payment from './components/Payment.vue'
 import Loan from './components/Loan.vue'
-
+import Loan2 from './components/Loan2.vue'
+import Home from './components/Home.vue'
+import Content from './components/Content.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld, CustomerRegister, Login, Brand, Category, Product, Customer, Inventory, Payment, Loan
+    HelloWorld, CustomerRegister, Login, Brand, Category, Product, Customer, Inventory, Payment, Loan, Loan2, Home, Content
   }
 }
 </script>
@@ -33,6 +43,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   /*   text-align: center; */
   color: #2c3e50;
+  background-color: white;
   margin-top: 60px;
+}
+.header {
+  height: 4rem;
 }
 </style>
