@@ -7,11 +7,11 @@
         <b-form  @register="onRegister" @submit="onLogin">
 
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="submit" variant="danger">Register</b-button>
+                <b-button class="padding" type="button" variant="danger" v-on:click="$router.push('/register')">Register</b-button>
             </div>
 
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="submit" variant="success">Login</b-button>
+                <b-button class="padding" type="button" variant="success" v-on:click="$router.push('/login')">Login</b-button>
             </div>
 
         </b-form>
