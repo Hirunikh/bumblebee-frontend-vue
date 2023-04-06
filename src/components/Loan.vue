@@ -26,9 +26,18 @@
         </b-form>
         <div>
             <h5 style="text-align: center;">Loan Details</h5>
-            <b-table class="margins" hover :items="items" :striped="striped" :bordered="bordered"
-                :outlined="outlined"  sticky-header></b-table>
+            <b-table class="margins" hover :items="items" :fields="fields" :striped="striped" :bordered="bordered"
+                :outlined="outlined"  sticky-header>
+                <template  v-slot:cell(payments)="{ item }">
+                    <span><b-btn  @click="showPayments(item)" :disabled="item.paymentsList.length <= 0" :variant="item.paymentsList.length <= 0? '': 'outline-primary'" >View</b-btn></span>
+                </template>
+            </b-table>
         </div>
+        <b-modal ref="modal-payments" ok-only size="lg" id="modal-1" title="Loan Payments">
+            <b-table class="margins" hover :items="payments" :striped="striped" :bordered="bordered"
+                :outlined="outlined"  sticky-header>
+            </b-table>
+        </b-modal>
     </div>
 </template>
 <script>
@@ -44,16 +53,23 @@ export default {
                 // customerId: '',
                 // productId: ''
             },
+            payments: [{
+                paymentId: 'id',
+                paymentAmount: 0.0,
+                paymentDate: 'date'
+            }],
+            fields: ["loanId", "installmentPlan", "interestRate", "loanAmount", "paymentDueDate", "customerName", "productName", "payments"],
             items: [
-                {
-                    loanId: '', 
-                    installmentPlan: '',
-                    interestRate: '',
-                    loanAmount: '',
-                    paymentDueDate: '',
-                    customerName: '',
-                    productName: ''
-                }
+                // {
+                //     loanId: '', 
+                //     installmentPlan: '',
+                //     interestRate: '',
+                //     loanAmount: '',
+                //     paymentDueDate: '',
+                //     customerName: '',
+                //     productName: '',
+                //     paymentsList: []
+                // }
             ],
             striped: true,
             bordered: true,
@@ -61,6 +77,10 @@ export default {
         }
     },
     methods: {
+        showPayments(event) {
+            this.payments = event.paymentsList;
+            this.$refs['modal-payments'].show()
+        },
         async onSearch(event) {
             event.preventDefault()
             console.log("Search:", this.form)
@@ -82,7 +102,8 @@ export default {
                         loanAmount: report.loanInfo.loanAmount,
                         paymentDueDate: report.loanInfo.paymentDueDate,
                         customerName: report.customerInfo.customerName,
-                        productName: report.product.productName
+                        productName: report.product.productName,
+                        paymentsList: report.payments
                     })
                 })
                 this.items = itemsArray;
