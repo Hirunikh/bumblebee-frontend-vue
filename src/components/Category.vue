@@ -80,10 +80,10 @@ export default {
             await axios.post('/bumblebee-apis/api/V1/Category', {
                 categoryName: this.form.categoryname
             })
-            .then(response => {
-                console.log(response);
-                this.loadCategories();
-            })
+                .then(response => {
+                    console.log(response);
+                    this.loadCategories();
+                })
         },
         async onUpdate() {
             await axios.put(`/bumblebee-apis/api/V1/Category/${this.form.id}`, {}, {
