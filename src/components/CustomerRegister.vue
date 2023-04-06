@@ -29,6 +29,7 @@
             <b-form-group class="margins" id="input-group-6" label="Password:" label-for="input-6">
                 <b-form-input id="input-6" v-model="form.password" placeholder="Enter Your Password"
                     required></b-form-input>
+                <!-- <button type=password @click="switchVisibility()">show / hide</button> -->
             </b-form-group>
 
             <b-form-group class="margins" id="input-group-7" label="Confirm Password:" label-for="input-7">
@@ -64,6 +65,7 @@ export default {
             form: {
                 name: '',
                 email: '',
+
                 address: '',
                 contactnumber: '',
                 password: '',
@@ -75,8 +77,24 @@ export default {
         onCancel() {
 
         },
-        onRegister() {
-            this.$refs['modal-msg'].show()
+        // switchVisibility(){
+        //     this.password = this.password === "password" ? "text" : "password" ;
+        //        },
+
+        async onRegister() {
+            await axios.post('/bumblebee-apis/api/V1/Customers', {
+                customerName: this.form.name,
+                email: this.form.email,
+                dob:this.value,
+                address: this.form.address,
+                contactNumber: this.form.contactnumber,
+                password: this.form.password,
+                confirmpassword: this.form.confirmpassword,
+            })
+                .then(response => {
+                    console.log(response);
+                    this.$refs['modal-msg'].show()
+                })
         },
         handleOk() {
             this.$router.push("/");
@@ -92,7 +110,7 @@ export default {
     width: 50%;
     border: 2px solid grey;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 30px;
     background-color: white;
 }
 
