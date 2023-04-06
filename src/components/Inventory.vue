@@ -5,8 +5,15 @@
             <b-form-group class="margins" id="input-group-1" label="Inventory ID:" label-for="input-1">
                 <b-form-input id="input-1" v-model="form.id" placeholder="Autogenerate ID"></b-form-input>
             </b-form-group>
-            <b-form-group class="margins" id="input-group-2" label="Product ID:" label-for="input-2">
+            <!-- <b-form-group class="margins" id="input-group-2" label="Product ID:" label-for="input-2">
                 <b-form-input id="input-2" v-model="form.productid" placeholder="Enter Product Id" required></b-form-input>
+            </b-form-group> -->
+            <b-form-group class="margins" id="input-group-2" label="Product:" label-for="input-2">
+                <b-form-select class="select" v-model="form.productid" :options="products">
+                    <template #first>
+                        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+                    </template>
+                </b-form-select>
             </b-form-group>
             <b-form-group class="margins" id="input-group-3" label="Stock Location:" label-for="input-3">
                 <b-form-input id="input-3" v-model="form.stocklocation" placeholder="Enter Stock Location"
@@ -44,11 +51,12 @@ export default {
         return {
             form: {
                 id: '',
-                productid: '',
+                productid: null,
                 stocklocation: '',
                 stockquantity: '',
 
             },
+            products: [],
             items: [],
             fields: ["inventoryId", "productId", "stockLocation", "stockQuantity", "select", "delete"],
             striped: true,
@@ -58,6 +66,7 @@ export default {
     },
     mounted() {
         this.loadInventries();
+        this.loadProduct();
     },
 
     methods: {
@@ -75,6 +84,26 @@ export default {
             })
             this.items = allItems;
         },
+
+        async loadProduct() {
+            let response  = await axios.get("/bumblebee-apis/api/V1/Product")
+            let allproducts = response.data;
+            let allItems = [];
+            allproducts.forEach(product => {
+                allItems.push({
+                    value: product.productID,
+                    text: product.productName
+                    // productDescription: product.productDescription,
+                    // categoryId: product.categoryID,
+                    // brandId: product.brandID,
+                    // price: product.price,
+                    // quantity: product.quantity
+                })
+
+            })
+            this.products = allItems;
+        },
+
         async deleteItem(item) {
             await axios.delete(`/bumblebee-apis/api/V1/Inventory/${item.inventoryId}`)
                 .then(response => {
@@ -142,4 +171,10 @@ export default {
 
 .padding {
     margin: 1rem;
-}</style>
+}
+
+.select {
+    width: 100%;
+    padding: 0.4rem;
+}
+</style>
