@@ -21,7 +21,11 @@
             </b-form-group>
            
             <b-form-group class="margins" id="input-group-4" label="Brand:" label-for="input-4">
-                <b-form-select class="select" v-model="form.brandId" :options="brands"></b-form-select>
+                <b-form-select class="select" v-model="form.brandId" :options="brands">
+                    <template #first>
+                        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+                    </template>
+                </b-form-select>
             </b-form-group>
             <b-form-group class="margins" id="input-group-6" label="Price:" label-for="input-6">
                 <b-form-input id="input-6" v-model="form.price" placeholder="Enter Product Price" required></b-form-input>
@@ -97,8 +101,11 @@ import axios from 'axios'
             this.items = allItems;
         },
         async deleteItem(item) {
-           await axios.delete("")
-           this.loadBrands();
+            await axios.delete(`/bumblebee-apis/api/V1/Product/${item.productId}`) 
+                .then(response => {
+                    console.log(response);
+                    this.loadProduct();
+                });
         },
         selectItem(item) {
             this.form.id = item.productId;
@@ -132,12 +139,38 @@ import axios from 'axios'
                 })
             })
             this.brands = allItems;
-        },           
-        onCreate() {
-            console.log(this.form)
-        },
-        onUpdate() {
+        },    
 
+        // onCreate() {
+        //     console.log(this.form)
+        // },
+        async onCreate() {
+            await axios.post('/bumblebee-apis/api/V1/Product', {
+
+                productName: this.form.productname,
+                productDescription: this.form.productdescription,
+                categoryId: this.form.categoryId,
+                brandId: this.form.brandId,
+                price: this.form.price,
+                quantity: this.form.quantity
+
+            })
+                .then(response => {
+                    console.log(response);
+                    this.loadProduct();
+                })
+        },
+        async onUpdate() {
+            await axios.put(`/bumblebee-apis/api/V1/Product/${this.form.id}`, {}, {
+                params: {
+                    productName: this.form.productname
+                }
+                
+            })
+                .then((response) => {
+                    console.log(response);
+                    this.loadProduct();
+                });
         }
 
     }   
