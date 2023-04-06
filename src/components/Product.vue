@@ -149,8 +149,8 @@ import axios from 'axios'
 
                 productName: this.form.productname,
                 productDescription: this.form.productdescription,
-                categoryId: this.form.categoryId,
-                brandId: this.form.brandId,
+                categoryID: this.form.categoryId,
+                brandID: this.form.brandId,
                 price: this.form.price,
                 quantity: this.form.quantity
 
@@ -161,10 +161,23 @@ import axios from 'axios'
                 })
         },
         async onUpdate() {
-            await axios.put(`/bumblebee-apis/api/V1/Product/${this.form.id}`, {}, {
-                params: {
-                    productName: this.form.productname
-                }
+            await axios.put(`/bumblebee-apis/api/V1/Product/${this.form.id}`, {
+                productName: this.form.productname,
+                productDescription: this.form.productdescription,
+                categoryID: this.form.categoryId,
+                brandID: this.form.brandId,
+                price: this.form.price,
+                quantity: this.form.quantity
+
+            }, {
+                // params: {
+                //     productName: this.form.productname,
+                //     productDescription: this.form.productdescription,
+                // categoryID: this.form.categoryId,
+                // brandID: this.form.brandId,
+                // price: this.form.price,
+                // quantity: this.form.quantity
+                // }
                 
             })
                 .then((response) => {
