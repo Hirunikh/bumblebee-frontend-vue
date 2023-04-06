@@ -11,7 +11,8 @@
 
             <div class="buttonsAtBottom">
                 <b-button class="padding" type="button" v-on:click="onCreate" variant="primary">Create</b-button>
-                <b-button class="padding" type="button" v-on:click="onUpdate" variant="secondary">Update</b-button>
+                <b-button class="padding" type="button" v-on:click="onUpdate" variant="success">Update</b-button>
+                <b-button class="padding" type="reset" v-on:click="$router.push('/brands')" variant="secondary">Clear</b-button>
             </div>
 
         </b-form>

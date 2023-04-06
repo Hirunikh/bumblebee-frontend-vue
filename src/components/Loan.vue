@@ -21,6 +21,7 @@
 
             <div class="buttonsAtBottom">
                 <b-button class="padding" type="submit" variant="primary">Search</b-button>
+                
             </div>
 
         </b-form>
