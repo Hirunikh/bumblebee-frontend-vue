@@ -77,10 +77,10 @@ export default {
 <style lang="css" scoped>
 .form {
     margin: auto;
-    width: 50%;
+    width: 70%;
     border: 2px solid grey;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 30px;
     background-color: white;
 }
 

@@ -97,9 +97,9 @@ export default {
 <style lang="css" scoped>
 .form {
     margin: auto;
-    width: 50%;
+    width: 80%;
     border: 2px solid grey;
-    border-radius: 10px;
+    border-radius: 30px;
     padding: 10px;
     background-color: white;
 }
