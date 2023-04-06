@@ -26,8 +26,8 @@ export default {
         return {
             value: "",
             form: {
-                username: '',
-                password: '',
+                username: 'Admin',
+                password: 'Admin@1234',
             },
         }
     },
