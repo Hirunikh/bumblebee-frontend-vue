@@ -27,13 +27,12 @@
             </b-form-group>
 
             <b-form-group class="margins" id="input-group-6" label="Password:" label-for="input-6">
-                <b-form-input id="input-6" v-model="form.password" placeholder="Enter Your Password"
+                <b-form-input id="input-6" type="password" v-model="form.password" placeholder="Enter Your Password"
                     required></b-form-input>
-                <!-- <button type=password @click="switchVisibility()">show / hide</button> -->
             </b-form-group>
 
             <b-form-group class="margins" id="input-group-7" label="Confirm Password:" label-for="input-7">
-                <b-form-input id="input-7" v-model="form.confirmpassword" placeholder="Confirm Your Password"
+                <b-form-input id="input-7"  type="password" v-model="form.confirmpassword" placeholder="Confirm Your Password"
                     required></b-form-input>
             </b-form-group>
 

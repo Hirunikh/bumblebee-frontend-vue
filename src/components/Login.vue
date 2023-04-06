@@ -7,10 +7,10 @@
         <h6 style="text-align: center;">Login to Bumbel-Bee with your username and password.</h6>
         <b-form >
             <b-form-group class="margins" id="input-group-1" label="UserName:" label-for="input-1">
-                <b-form-input id="input-1" v-model="form.username" placeholder="Enter Your Username" required></b-form-input>
+                <b-form-input id="input-1"  v-model="form.username" placeholder="Enter Your Username" required></b-form-input>
             </b-form-group>
             <b-form-group class="margins" id="input-group-2" label="Password:" label-for="input-2">
-                <b-form-input id="input-2" v-model="form.password" placeholder="Enter a Password" required></b-form-input>
+                <b-form-input id="input-2" type="password" v-model="form.password" placeholder="Enter a Password" required></b-form-input>
             </b-form-group>
             <div class="buttonsAtBottom">
                 <b-button class="padding" type="button" v-on:click="$router.push('/dashboard')" variant="primary">Login</b-button>
