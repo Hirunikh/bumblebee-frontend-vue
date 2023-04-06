@@ -90,7 +90,7 @@ export default {
     border: 2px solid grey;
     padding: 10px;
     background-color:white;
-    border-radius: 10px;
+    border-radius: 30px;
     background-color: white;
 }
 
