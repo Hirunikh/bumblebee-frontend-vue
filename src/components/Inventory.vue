@@ -17,8 +17,8 @@
                     required></b-form-input>
             </b-form-group>
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="create" variant="primary">Create</b-button>
-                <b-button class="padding" type="update" variant="secondary">Update</b-button>
+                <b-button class="padding" type="button" v-on:click="onCreate" variant="primary">Create</b-button>
+                <b-button class="padding" type="button" v-on:click="onUpdate" variant="secondary">Update</b-button>
             </div>
 
         </b-form>
@@ -30,7 +30,7 @@
                     <span><b-btn @click="selectItem(item)" variant="outline-primary">Select</b-btn></span>
                 </template>
                 <template v-slot:cell(delete)="{ item }">
-                    <span><b-btn variant="outline-success" @click="deleteItem(item)">Delete</b-btn></span>
+                    <span><b-btn variant="outline-danger" @click="deleteItem(item)">Delete</b-btn></span>
                 </template>
             </b-table>
         </div>
@@ -76,10 +76,10 @@ export default {
             this.items = allItems;
         },
         async deleteItem(item) {
-            await axios.delete(`/bumblebee-apis/api/V1/Category/${item.categoryId}`)
+            await axios.delete(`/bumblebee-apis/api/V1/Inventory/${item.inventoryId}`)
                 .then(response => {
                     console.log(response);
-                    this.loadCategories();
+                    this.loadInventries();
                 });
         },
         selectItem(item) {
@@ -88,16 +88,33 @@ export default {
             this.form.stocklocation = item.stockLocation;
             this.form.stockquantity = item.stockQuantity;
         },
-        onCreate() {
-
+        async onCreate() {
+            await axios.post('/bumblebee-apis/api/V1/Inventory', {
+                productID: this.form.productid,
+                stockLocation: this.form.stocklocation,
+                stockQuantity: this.form.stockquantity
+            })
+                .then(response => {
+                    console.log(response);
+                    this.loadInventries();
+                })
         },
-        onUpdate() {
-
+        async onUpdate() {
+            await axios.put(`/bumblebee-apis/api/V1/Inventory/${this.form.id}`, {}, {
+                params: {
+                productID: this.form.productid,
+                stockLocation: this.form.stocklocation,
+                stockQuantity: this.form.stockquantity
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                    this.loadInventries();
+                });
+        }
         }
 
     }
-
-}
 
 </script>
 
