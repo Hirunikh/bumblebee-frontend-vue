@@ -10,8 +10,8 @@
             </b-form-group>
 
             <div class="buttonsAtBottom">
-                <b-button class="padding" type="create" variant="primary">Create</b-button>
-                <b-button class="padding" type="update" variant="secondary">Update</b-button>
+                <b-button class="padding" type="button" v-on:click="onCreate" variant="primary">Create</b-button>
+                <b-button class="padding" type="button" v-on:click="onUpdate" variant="secondary">Update</b-button>
             </div>
 
         </b-form>
@@ -62,18 +62,35 @@ import axios from 'axios'
             this.items = allItems;
         },
         async deleteItem(item) {
-           await axios.delete("")
-           this.loadBrands();
+            await axios.delete(`/bumblebee-apis/api/V1/Brand/${item.brandId}`)
+                .then(response => {
+                    console.log(response);
+                    this.loadBrands();
+                });
         },
         selectItem(item) {
             this.form.brandname = item.brandName;
             this.form.id = item.brandId;
         },
-        onCreate() {
-
+        async onCreate() {
+            await axios.post('/bumblebee-apis/api/V1/Brand', {
+                brandName: this.form.brandname
+            })
+            .then(response => {
+                console.log(response);
+                this.loadBrands();
+            })
         },
-        onUpdate() {
-
+        async onUpdate() {
+            await axios.put(`/bumblebee-apis/api/V1/Brand/${this.form.id}`, {}, {
+                params: {
+                    brandName: this.form.brandname
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                    this.loadBrands();
+                });
         }
 
     }   
